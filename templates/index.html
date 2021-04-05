@@ -12,6 +12,7 @@
                 var clickA = $('<a>',{'class':'tasks-items-href'}).attr('data-link',articleLink).attr('title', 'הסר');
                 var imgCan = $('<img/>',{'class':'tasks-items-img'}).attr({'src':'/static/trash-can.png'}).css({'height':'30px'});
                 var div = $('<div/>',{'class':'tasks-items-div'});
+                div.append('<input type="checkbox" value="'+element.task_id+'">');
                 clickA.append(imgCan);
                 div.append(title,clickA);
                 return div;
@@ -28,6 +29,7 @@
                           var newElement = buildData(itm);
                           $(ul).append(newElement);
                       });
+                        ul.append('<a href="">+ Add Task</a>');
                        $('.tasks-items').append(ul);
 
                        $('.tasks-items-href').on('click',function (e) {
@@ -40,12 +42,37 @@
     });
     </script>
     <style>
+        .tasks-items-div {
+          display: flex;
+          align-items: center;
+        }
         .tasks-items-title {
             width: 150px;
             display: inline-block;
         }
         .tasks-items-href {
             cursor: pointer;
+        }
+        input[type="checkbox"] {
+             margin-right: 15px; -webkit-appearance: none;
+             border: 1px solid #cacece;
+             padding: 9px;
+             display: inline-block;
+	         position: relative;
+        }
+        input[type="checkbox"]:checked {
+            background-color: #e9ecee;
+            border: 1px solid #adb8c0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+            color: #99a1a7;
+         }
+        input[type="checkbox"]:checked:after {
+            content: '\2714';
+            font-size: 14px;
+            position: absolute;
+            top: 0px;
+            left: 3px;
+            color: #99a1a7;
         }
     </style>
     <link rel='icon' href='static/images.png' type='image/x-icon'>
