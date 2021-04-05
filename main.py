@@ -42,7 +42,8 @@ def create_app(config_filename):
 @app.route('/')
 def hello():
     """Return I'alive HTTP greeting."""
-    return render_template('index.html')
+    message = "TO DO TASK LISK // CLICK ON IT"
+    return render_template('index.html',message = message)
 
 @app.route('/api/tasks/add/',methods=['GET','POST'])
 def tasksListAdd():
@@ -50,7 +51,7 @@ def tasksListAdd():
     resp=tasks.add(request.get_json())
     return jsonify(resp)
 
-@app.route('/api/tasks/<id>/',methods=['DELETE'])
+@app.route('/api/tasks/delete/<id>/',methods=['DELETE'])
 def tasksListDelete(id):
     import tasks
     resp=tasks.delete(id)

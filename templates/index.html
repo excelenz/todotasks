@@ -3,23 +3,57 @@
   <head>
     <title>TO DO LIST</title>
     <META HTTP-EQUIV='Content-Type' CONTENT='text/html; charset=utf-8'>
-    <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.js'></script>
+    <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
     <script type="text/javascript">
     $(document).ready(function(){
+            var buildData = function (element) {
+                var title = $('<span/>',{'class':'tasks-items-title'}).text(element.task_name);
+                var articleLink = '/api/tasks/delete/'+element.task_id+'/';
+                var clickA = $('<a>',{'class':'tasks-items-href'}).attr('data-link',articleLink).attr('title', 'הסר');
+                var imgCan = $('<img/>',{'class':'tasks-items-img'}).attr({'src':'/static/trash-can.png'}).css({'height':'30px'});
+                var div = $('<div/>',{'class':'tasks-items-div'});
+                clickA.append(imgCan);
+                div.append(title,clickA);
+                return div;
+            };
             $.ajax({
-                type: 'POST',
+                type: 'GET',
                 url: '/api/tasks/',
                 success: function(data) {
                     console.log(data);
+                    //var data = ($.parseJSON(data[0]));
+                    var ul=$('<ul/>',{'class':'cont-items'});
+                    if (data.length> 0) {
+                      $.each( data, function(ind,itm){
+                          var newElement = buildData(itm);
+                          $(ul).append(newElement);
+                      });
+                       $('.tasks-items').append(ul);
+
+                       $('.tasks-items-href').on('click',function (e) {
+                          e.preventDefault();
+                          console.log( $(this).attr('data-link'));
+                      });
+                    };
                 }
             });
     });
-</script>
+    </script>
+    <style>
+        .tasks-items-title {
+            width: 150px;
+            display: inline-block;
+        }
+        .tasks-items-href {
+            cursor: pointer;
+        }
+    </style>
     <link rel='icon' href='static/images.png' type='image/x-icon'>
   </head>
   <body>
     <div>
       <p>{{ message }}</p>
     </div>
+    <div class="tasks-items"></div>
   </body>
 </html>
