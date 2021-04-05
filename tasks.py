@@ -33,17 +33,19 @@ def add(request):
     except:
         task_id = 1
     date = datetime.now()
-    task = Tasks (
-        task_id = task_id,
-        task_name = arra['taskName'],
-        time_create = str(date),
-        status = '1'
-    )
-    try:
-        db.session.add(task)
-        db.session.commit()
-    except Exception as e:
-        db.session.rollback()
-        logger.info(" ------- add request rollback ------- {}".format(e))
-    return 1
-
+    if arra['taskName']!='':
+        task = Tasks (
+            task_id = task_id,
+            task_name = arra['taskName'],
+            time_create = str(date),
+            status = '1'
+        )
+        try:
+            db.session.add(task)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            logger.info(" ------- add request rollback ------- {}".format(e))
+        return 1
+    else:
+        return 0

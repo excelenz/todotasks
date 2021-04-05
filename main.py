@@ -42,7 +42,7 @@ def create_app(config_filename):
 @app.route('/')
 def hello():
     """Return I'alive HTTP greeting."""
-    message = "TO DO TASK LISK // CLICK ON IT"
+    message = "TO DO TASK LISK // \xA9 Dmitry Margolin"
     return render_template('index.html',message = message)
 
 @app.route('/api/tasks/add/',methods=['GET','POST'])
