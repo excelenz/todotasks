@@ -17,7 +17,7 @@
 import datetime
 import logging
 import os
-from flask import Flask, render_template, request, Response
+from flask import Flask, render_template, request, Response, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask import Blueprint
 from flask_restful import Api
@@ -41,10 +41,22 @@ def create_app(config_filename):
 
 @app.route('/')
 def hello():
-    """Return a friendly HTTP greeting."""
-    return 'Hello World!'
+    """Return I'alive HTTP greeting."""
+    return jsonify({"success": True, "message": "API is up" })
 
-@app.route('/api/tasks/<id>/', defaults={'id':0},methods=['POST'])
+@app.route('/api/tasks/add/',methods=['GET','POST'])
+def tasksListAdd():
+    import tasks
+    resp=tasks.add(request.get_json())
+    return jsonify(resp)
+
+@app.route('/api/tasks/<id>/', defaults={'id':0},methods=['DELETE'])
+def tasksListDelete():
+    import tasks
+    resp=tasks.delete(id)
+    return jsonify(resp)
+
+@app.route('/api/tasks/<id>/', defaults={'id':0},methods=['PUT','POST'])
 @app.route('/api/tasks/', defaults={'id':0},methods=['GET','POST'])
 def tasksList(id):
     import tasks

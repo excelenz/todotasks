@@ -1,6 +1,15 @@
 from flask import Flask,jsonify,redirect,request
 from datetime import datetime
 from models import db, Tasks, TasksSchema
+import logging
+import json
+import pytz
+from datetime import datetime
+
+tzinfo = pytz.timezone('Israel')
+logger = logging.getLogger(__name__)
+logger.info("*************************************************************** \n ")
+logger.info(__name__)
 
 def main(id,request):
     import datetime
@@ -8,3 +17,33 @@ def main(id,request):
     tasks_schema = TasksSchema(many=True)
     resp=tasks_schema.dump(Task)
     return resp
+
+
+def delete(id):
+    task = Tasks.query.get(id)
+    db.session.delete(task)
+    db.session.commit()
+    return TasksSchema.jsonify(task)
+
+def add(request):
+    arra = json.dumps(request)
+    arra = json.loads(arra)
+    try:
+        task_id = db.session.query(Tasks.task_id).order_by(Tasks.task_id.desc()).first()[0] + 1
+    except:
+        task_id = 1
+    date = datetime.now()
+    task = Tasks (
+        task_id = task_id,
+        task_name = arra['taskName'],
+        time_create = str(date),
+        status = '1'
+    )
+    try:
+        db.session.add(task)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        logger.info(" ------- add request rollback ------- {}".format(e))
+    return 1
+
