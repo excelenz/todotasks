@@ -18,8 +18,10 @@ import datetime
 import logging
 import os
 from flask import Flask, render_template, request, Response
-import sqlalchemy
-from db.py import db
+from flask_sqlalchemy import SQLAlchemy
+from flask import Blueprint
+from flask_restful import Api
+
 
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
 # called `app` in `main.py`.
@@ -27,9 +29,14 @@ app = Flask(__name__)
 
 logger = logging.getLogger()
 
-def init_connection_engine():
-    return 1
-
+def create_app(config_filename):
+    app.config.from_object(config_filename)
+    api_bp = Blueprint('api', __name__)
+    api = Api(api_bp)
+    db = SQLAlchemy(app)
+    from models import Tasks
+    db.init_app(app)
+    return app
 
 
 
@@ -38,7 +45,7 @@ def hello():
     """Return a friendly HTTP greeting."""
     return 'Hello World!'
 
-
+app = create_app("config")
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
     # Engine, a webserver process such as Gunicorn will serve the app. This

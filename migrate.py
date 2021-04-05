@@ -1,7 +1,8 @@
+from flask import Flask
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 from models import db
-from echobot import create_app
+from main import create_app
 
 app = create_app('config')
 

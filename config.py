@@ -3,9 +3,9 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import os
 
-from flask_sqlalchemy import SQLAlchemy
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/db.sqlite3"
-db = SQLAlchemy(app)
+#from flask_sqlalchemy import SQLAlchemy
+#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/db.sqlite3"
+#db = SQLAlchemy(app)
 
 
 SQLALCHEMY_ECHO = False
