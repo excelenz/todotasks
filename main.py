@@ -42,7 +42,7 @@ def create_app(config_filename):
 @app.route('/')
 def hello():
     """Return I'alive HTTP greeting."""
-    return jsonify({"success": True, "message": "API is up" })
+    return render_template('index.html')
 
 @app.route('/api/tasks/add/',methods=['GET','POST'])
 def tasksListAdd():
@@ -50,8 +50,8 @@ def tasksListAdd():
     resp=tasks.add(request.get_json())
     return jsonify(resp)
 
-@app.route('/api/tasks/<id>/', defaults={'id':0},methods=['DELETE'])
-def tasksListDelete():
+@app.route('/api/tasks/<id>/',methods=['DELETE'])
+def tasksListDelete(id):
     import tasks
     resp=tasks.delete(id)
     return jsonify(resp)

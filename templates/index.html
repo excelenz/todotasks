@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TO DO LIST</title>
+    <META HTTP-EQUIV='Content-Type' CONTENT='text/html; charset=utf-8'>
+    <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.js'></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+            $.ajax({
+                type: 'POST',
+                url: '/api/tasks/',
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+    });
+</script>
+    <link rel='icon' href='static/images.png' type='image/x-icon'>
+  </head>
+  <body>
+    <div>
+      <p>{{ message }}</p>
+    </div>
+  </body>
+</html>

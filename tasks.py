@@ -20,10 +20,10 @@ def main(id,request):
 
 
 def delete(id):
-    task = Tasks.query.get(id)
+    task = db.session.query(Tasks).filter_by(task_id=int(id)).one()
     db.session.delete(task)
     db.session.commit()
-    return TasksSchema.jsonify(task)
+    return {"deleted":id}
 
 def add(request):
     arra = json.dumps(request)
