@@ -5,14 +5,35 @@
     <META HTTP-EQUIV='Content-Type' CONTENT='text/html; charset=utf-8'>
     <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
     <script type="text/javascript">
+
+
     $(document).ready(function(){
+      Main();
+    });
+    var Delete = (function (){
+        $('.tasks-items-delete').on('click',function (e) {
+           e.preventDefault();
+           console.log( $(this).attr('data-link'));
+           if ($('#checkbox'+$(this).attr('data-value'))[0].checked) {
+             $.ajax({
+               type: 'DELETE',
+               url: '/api/tasks/delete/'+$(this).attr('data-value')+'/',
+               success: function(data) {
+                     Main();
+               }
+             });
+           };
+       });
+    });
+    var Main = (function (){
+            $('.cont-items').detach();
             var buildData = function (element) {
                 var title = $('<span/>',{'class':'tasks-items-title'}).text(element.task_name);
                 var articleLink = '/api/tasks/delete/'+element.task_id+'/';
-                var clickA = $('<a>',{'class':'tasks-items-href'}).attr('data-link',articleLink).attr('title', 'הסר');
+                var clickA = $('<a>',{'class':'tasks-items-delete'}).attr('data-value',element.task_id).attr('data-link',articleLink).attr('title', 'הסר');
                 var imgCan = $('<img/>',{'class':'tasks-items-img'}).attr({'src':'/static/trash-can.png'}).css({'height':'30px'});
                 var div = $('<div/>',{'class':'tasks-items-div'});
-                div.append('<input type="checkbox" value="'+element.task_id+'">');
+                div.append('<input type="checkbox" id="checkbox'+element.task_id+'">');
                 clickA.append(imgCan);
                 div.append(title,clickA);
                 return div;
@@ -29,13 +50,10 @@
                           var newElement = buildData(itm);
                           $(ul).append(newElement);
                       });
-                        ul.append('<a href="">+ Add Task</a>');
                        $('.tasks-items').append(ul);
+                       $('<a href="" class="tasks-items-add" id="tasks-items-add">+ Add Task</a>').appendTo($('.cont-items'));
+                       Delete();
 
-                       $('.tasks-items-href').on('click',function (e) {
-                          e.preventDefault();
-                          console.log( $(this).attr('data-link'));
-                      });
                     };
                 }
             });
@@ -50,7 +68,7 @@
             width: 150px;
             display: inline-block;
         }
-        .tasks-items-href {
+        .tasks-items-delete {
             cursor: pointer;
         }
         input[type="checkbox"] {
