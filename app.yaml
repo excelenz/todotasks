@@ -1,1 +1,9 @@
 runtime: python37
+env_variables:
+  DB_USER: root
+  DB_PASS: qwerty12
+  DB_NAME: todolist
+  DB_HOST: /cloudsql/to-do-list-309620:europe-west1:todolist
+
+beta_settings:
+  cloud_sql_instances: to-do-list-309620:europe-west1:todolist

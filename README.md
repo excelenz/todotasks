@@ -10,6 +10,7 @@ deploying to cloud:
 
 When you firt run locally change the path to DB in config.py to
 SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@{}/{}".format(db_user,db_pass,db_host,db_name)
+and uncomment #@app.before_first_request in main.py
 
 It will connect remotely to db in google cloud. Install all what you need.
 Then change it back and deploy. There is some problem with environment variables that they suggest to use

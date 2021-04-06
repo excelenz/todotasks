@@ -75,33 +75,24 @@ def init_connection_engine():
 
 def init_unix_connection_engine(db_config):
     # [START cloud_sql_mysql_sqlalchemy_create_tcp]
-    # Remember - storing secrets in plaintext is potentially unsafe. Consider using
-    # something like https://cloud.google.com/secret-manager/docs/overview to help keep
-    # secrets secret.
-    # Extract host and port from db_host
     host_args = db_host.split(":")
     db_hostname, db_port = host_args[0], int(host_args[1])
-
     pool = sqlalchemy.create_engine(
-        # Equivalent URL:
-        # mysql+pymysql://<db_user>:<db_pass>@<db_host>:<db_port>/<db_name>
         sqlalchemy.engine.url.URL(
             drivername="mysql+pymysql",
-            username=db_user,  # e.g. "my-database-user"
-            password=db_pass,  # e.g. "my-database-password"
-            host=db_hostname,  # e.g. "127.0.0.1"
-            port=db_port,  # e.g. 3306
-            database=db_name,  # e.g. "my-database-name"
+            username=db_user,
+            password=db_pass,
+            host=db_hostname,
+            port=db_port,
+            database=db_name,
         ),
         **db_config
     )
     # [END cloud_sql_mysql_sqlalchemy_create_tcp]
-
     return pool
-
 db = None
 
-@app.before_first_request
+#@app.before_first_request
 def create_tables():
     global db
     db = db or init_connection_engine()
