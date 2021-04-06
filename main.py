@@ -70,11 +70,11 @@ def init_unix_connection_engine(db_config):
     # Remember - storing secrets in plaintext is potentially unsafe. Consider using
     # something like https://cloud.google.com/secret-manager/docs/overview to help keep
     # secrets secret.
-    db_user = 'root'
-    db_pass = 'qwerty12'
-    db_name = 'todolist'
-    db_host = '35.205.107.137:3306'
-
+    from secret import *
+    db_user = secret.db_user
+    db_pass = secret.db_pass
+    db_name = secret.db_name
+    db_host = secret.db_host
     # Extract host and port from db_host
     host_args = db_host.split(":")
     db_hostname, db_port = host_args[0], int(host_args[1])
@@ -97,13 +97,14 @@ def init_unix_connection_engine(db_config):
     return pool
 
 def init_unix_connection_engine1(db_config):
-
-    db_user = 'root'
-    db_pass = 'qwerty12'
-    db_name = 'todolist'
-    db_socket_dir = '/cloudsql'
-    cloud_sql_connection_name = "to-do-list-309620:europe-west1:todolist"
-
+    from secret import *
+    db_user = secret.db_user
+    db_pass = secret.db_pass
+    db_name = secret.db_name
+    db_host = secret.db_host
+    db_socket_dir = secret.db_socket_dir
+    cloud_sql_connection_name = secret.cloud_sql_connection_name
+    
     pool = sqlalchemy.create_engine(
         # Equivalent URL:
         # mysql+pymysql://<db_user>:<db_pass>@/<db_name>?unix_socket=<socket_path>/<cloud_sql_instance_name>
@@ -169,6 +170,6 @@ if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
     # Engine, a webserver process such as Gunicorn will serve the app. This
     # can be configured by adding an `entrypoint` to app.yaml.
-    app.run(host='127.0.0.1', port=8000, debug=True)
+    app.run(host='127.0.0.1', port=8020, debug=True)
 # [END gae_python3_app]
 # [END gae_python38_app]
