@@ -8,16 +8,14 @@ run local:
 deploying to cloud:
   gcloud app deploy
 
-When you firt run locally change the path to DB in config.py to
-SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@{}/{}".format(db_user,db_pass,db_host,db_name)
-and uncomment #@app.before_first_request in main.py
+When you first run locally change the path to DB in config.py to
+uncomment #@app.before_first_request in main.py
 
 It will connect remotely to db in google cloud. Install all what you need.
-Then change it back and deploy. There is some problem with environment variables that they suggest to use
-(if os.environ.get("DB_HOST"):) so you cannot use their manuals https://github.com/GoogleCloudPlatform/python-docs-samples/blob/master/cloud-sql/mysql/sqlalchemy/main.py
-also: https://filipmolcik.com/cant-connect-to-mysql-server-on-localhost-google-sql/
+Then change it back and deploy.
 you should allow your ip on google cloud
-
+you need cloud sql admin role to the cloud function service account
+you need to declare environment variables  in app.yaml
 
 
   usefull:

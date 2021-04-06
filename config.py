@@ -13,9 +13,9 @@ cloud_sql_connection_name = secret.cloud_sql_connection_name
 
 SQLALCHEMY_ECHO = False
 SQLALCHEMY_TRACK_MODIFICATIONS = True
-#SQLALCHEMY_DATABASE_URI = "sqlite:///tmp/db.sqlite3"
-#SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@/{}?unix_socket=/{}/{}".format(db_user,db_pass,db_name,db_socket_dir,cloud_sql_connection_name)
-SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@{}/{}".format(db_user,db_pass,db_host,db_name)
-SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@/{}?unix_socket=/{}/{}".format(db_user,db_pass,db_name,db_socket_dir,cloud_sql_connection_name)
 
+if os.environ.get("DB_HOST"):
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@/{}?unix_socket=/{}/{}".format(db_user,db_pass,db_name,db_socket_dir,cloud_sql_connection_name)
+else:
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@{}/{}".format(db_user,db_pass,db_host,db_name)
 SECRET_KEY = "sdsdsdsdsd-dsdsd-sdshgf£32423423443"
