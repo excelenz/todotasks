@@ -21,9 +21,12 @@ def main(id,request):
 
 def delete(id):
     task = db.session.query(Tasks).filter_by(task_id=int(id)).one()
-    db.session.delete(task)
-    db.session.commit()
-    return {"deleted":id}
+    try:
+        db.session.delete(task)
+        db.session.commit()
+        return {"deleted":id}
+    except Exception as e:
+        return {"already deleted":id}
 
 def add(request):
     arra = json.dumps(request)

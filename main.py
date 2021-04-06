@@ -127,10 +127,13 @@ def tasksListDelete(id):
 @app.route('/api/tasks/', defaults={'id':0},methods=['GET','POST'])
 def tasksList(id):
     import tasks
-    resp=tasks.main(id,request.get_json())
-    return jsonify(resp)
+    resp = tasks.main(id,request.get_json())
+    resp = jsonify(resp)
+    resp.cache_control.max_age = 1
+    return resp
 
 app = create_app("config")
+
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
     # Engine, a webserver process such as Gunicorn will serve the app. This
