@@ -18,10 +18,17 @@ import datetime
 import logging
 import os
 from flask import Flask, render_template, request, Response, jsonify
-from flask_sqlalchemy import SQLAlchemy
 from flask import Blueprint
 from flask_restful import Api
 import sqlalchemy
+from secret import *
+
+db_user = secret.db_user
+db_pass = secret.db_pass
+db_name = secret.db_name
+db_host = secret.db_host
+db_socket_dir = secret.db_socket_dir
+cloud_sql_connection_name = secret.cloud_sql_connection_name
 
 
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
@@ -70,11 +77,6 @@ def init_unix_connection_engine(db_config):
     # Remember - storing secrets in plaintext is potentially unsafe. Consider using
     # something like https://cloud.google.com/secret-manager/docs/overview to help keep
     # secrets secret.
-    from secret import *
-    db_user = secret.db_user
-    db_pass = secret.db_pass
-    db_name = secret.db_name
-    db_host = secret.db_host
     # Extract host and port from db_host
     host_args = db_host.split(":")
     db_hostname, db_port = host_args[0], int(host_args[1])
@@ -97,14 +99,8 @@ def init_unix_connection_engine(db_config):
     return pool
 
 def init_unix_connection_engine1(db_config):
-    from secret import *
-    db_user = secret.db_user
-    db_pass = secret.db_pass
-    db_name = secret.db_name
-    db_host = secret.db_host
-    db_socket_dir = secret.db_socket_dir
-    cloud_sql_connection_name = secret.cloud_sql_connection_name
-    
+
+
     pool = sqlalchemy.create_engine(
         # Equivalent URL:
         # mysql+pymysql://<db_user>:<db_pass>@/<db_name>?unix_socket=<socket_path>/<cloud_sql_instance_name>
