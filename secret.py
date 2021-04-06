@@ -1,5 +1,4 @@
-###
-### this file shoould bee secret
+"""this file shoould be secret"""
 db_user = 'root'
 db_pass = 'qwerty12'
 db_name = 'todolist'

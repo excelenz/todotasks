@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import os
-from secret import *
+import secret
 
 db_user = secret.db_user
 db_pass = secret.db_pass
@@ -14,6 +14,8 @@ cloud_sql_connection_name = secret.cloud_sql_connection_name
 SQLALCHEMY_ECHO = False
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 #SQLALCHEMY_DATABASE_URI = "sqlite:///tmp/db.sqlite3"
+#SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@/{}?unix_socket=/{}/{}".format(db_user,db_pass,db_name,db_socket_dir,cloud_sql_connection_name)
+SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@{}/{}".format(db_user,db_pass,db_host,db_name)
 SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@/{}?unix_socket=/{}/{}".format(db_user,db_pass,db_name,db_socket_dir,cloud_sql_connection_name)
-#SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@{}/{}".format(db_user,db_pass,db_host,db_name)
+
 SECRET_KEY = "sdsdsdsdsd-dsdsd-sdshgf£32423423443"

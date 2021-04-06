@@ -20,8 +20,9 @@ import os
 from flask import Flask, render_template, request, Response, jsonify
 from flask import Blueprint
 from flask_restful import Api
+from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy
-from secret import *
+import secret
 
 db_user = secret.db_user
 db_pass = secret.db_pass
@@ -95,29 +96,6 @@ def init_unix_connection_engine(db_config):
         **db_config
     )
     # [END cloud_sql_mysql_sqlalchemy_create_tcp]
-
-    return pool
-
-def init_unix_connection_engine1(db_config):
-
-
-    pool = sqlalchemy.create_engine(
-        # Equivalent URL:
-        # mysql+pymysql://<db_user>:<db_pass>@/<db_name>?unix_socket=<socket_path>/<cloud_sql_instance_name>
-        sqlalchemy.engine.url.URL(
-            drivername="mysql+pymysql",
-            username=db_user,  # e.g. "my-database-user"
-            password=db_pass,  # e.g. "my-database-password"
-            database=db_name,  # e.g. "my-database-name"
-            query={
-                "unix_socket": "{}/{}".format(
-                    db_socket_dir,  # e.g. "/cloudsql"
-                    cloud_sql_connection_name)  # i.e "<PROJECT-NAME>:<INSTANCE-REGION>:<INSTANCE-NAME>"
-            }
-        ),
-        **db_config
-    )
-    # [END cloud_sql_mysql_sqlalchemy_create_socket]
 
     return pool
 
