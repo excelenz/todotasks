@@ -13,12 +13,31 @@
 # limitations under the License.
 
 import main
+from models import Tasks
+import pytest
 
 
 def test_index():
     main.app.testing = True
     client = main.app.test_client()
-
     r = client.get('/')
     assert r.status_code == 200
-    assert 'Hello World' in r.data.decode('utf-8')
+    assert 'TO DO LIST' in r.data.decode('utf-8')
+
+@pytest.fixture(scope='module')
+def new_task():
+    task = Tasks('Task 1 test','1617817587')
+    return task
+
+
+def test_create_new_task(new_task):
+    assert new_task.task_name == 'Task 1 test'
+    assert new_task.time_create == '1617817587'
+    assert new_task.status == '1'
+
+@pytest.fixture(scope='module')
+def test_client():
+    flask_app = create_app('flask_test.cfg')
+    with flask_app.test_client() as testing_client:
+        with flask_app.app_context():
+            yield testing_client  

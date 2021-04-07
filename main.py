@@ -24,6 +24,7 @@ from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy
 import secret
 
+
 db_user = secret.db_user
 db_pass = secret.db_pass
 db_name = secret.db_name
