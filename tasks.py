@@ -13,6 +13,7 @@ logger.info(__name__)
 
 def main(id,request):
     import datetime
+    db.session.commit()
     Task = Tasks.query.order_by(Tasks.time_create.desc())
     tasks_schema = TasksSchema(many=True)
     resp=tasks_schema.dump(Task)
