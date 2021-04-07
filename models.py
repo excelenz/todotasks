@@ -12,7 +12,7 @@ db = SQLAlchemy()
 
 class Tasks(db.Model):
     __tablename__ = 'tasks'
-    def __init__(self,task_name,time_create,status='1'):
+    def __init__(self,task_id,task_name,time_create,status='1'):
         self.task_name = task_name
         self.time_create = time_create
         self.status = status
